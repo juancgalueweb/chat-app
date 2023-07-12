@@ -1,0 +1,5 @@
+.cache
+pnpm-lock.yaml
+public
+node_modules
+yarn.lock
