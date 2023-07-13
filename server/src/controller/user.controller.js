@@ -99,7 +99,7 @@ export const login = async (req, res) => {
       })
     }
 
-    const { name } = user
+    const { name, _id } = user
 
     // Generate a token
     const token = await loginToken(user._id)
@@ -107,6 +107,7 @@ export const login = async (req, res) => {
     return res.status(HttpStatusCode.OK).json({
       msg: MSGS_RESPONSES.LOGIN_OK,
       success: true,
+      _id,
       name,
       email,
       token
