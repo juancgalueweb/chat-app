@@ -119,3 +119,54 @@ export const login = async (req, res) => {
     })
   }
 }
+
+export const findSingleUser = async (req, res) => {
+  const { userId } = req.params
+
+  try {
+    const user = await User.findById(userId)
+
+    if (user) {
+      const { email, name, _id } = user
+
+      res.status(HttpStatusCode.OK).json({
+        msg: MSGS_RESPONSES.FIND_SINGLE_USER,
+        success: true,
+        _id,
+        name,
+        email
+      })
+    }
+  } catch (error) {
+    return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      msg: MSGS_RESPONSES.LOGIN_ERROR,
+      success: false,
+      error: error.message
+    })
+  }
+}
+
+export const getAllUsers = async (_, res) => {
+  try {
+    const users = await User.find()
+    const usersToFrontEnd = users.map(user => {
+      return {
+        _id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    })
+
+    res.status(HttpStatusCode.OK).json({
+      msg: MSGS_RESPONSES.FIND_ALL_USERS,
+      success: true,
+      users: usersToFrontEnd
+    })
+  } catch (error) {
+    return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      msg: MSGS_RESPONSES.LOGIN_ERROR,
+      success: false,
+      error: error.message
+    })
+  }
+}

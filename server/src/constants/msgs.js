@@ -10,5 +10,7 @@ export const MSGS_RESPONSES = {
   USER_ERROR: 'User can not be created',
   LOGIN_ERROR: 'Login could not be completed',
   INVALID_EMAIL_OR_PASS: 'Invalid e-mail or password',
-  LOGIN_OK: 'Login successfull'
+  LOGIN_OK: 'Login successfull',
+  FIND_SINGLE_USER: 'User found',
+  FIND_ALL_USERS: 'All users were found'
 }
