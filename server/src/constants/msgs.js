@@ -7,5 +7,8 @@ export const MSGS_RESPONSES = {
   WEAK_PASSWORD:
     'Password must has a minimun lenght of 8 characters, at least one lowercase, one uppercase, one symbol and one number',
   REGISTER_USER: 'The user was registed successfully',
-  USER_ERROR: 'User can not be created'
+  USER_ERROR: 'User can not be created',
+  LOGIN_ERROR: 'Login could not be completed',
+  INVALID_EMAIL_OR_PASS: 'Invalid e-mail or password',
+  LOGIN_OK: 'Login successfull'
 }
