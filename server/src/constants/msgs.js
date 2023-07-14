@@ -4,6 +4,7 @@ export const MSGS_RESPONSES = {
   INVALID_EMAIL: 'This is not a valid email',
   EXISTING_USER: 'User already exist in the DB...',
   REQUIRED_FIELDS: 'All fields are required',
+  SHORT_NAME: 'Name must have at least 3 characters',
   WEAK_PASSWORD:
     'Password must has a minimun lenght of 8 characters, at least one lowercase, one uppercase, one symbol and one number',
   REGISTER_USER: 'The user was registed successfully',

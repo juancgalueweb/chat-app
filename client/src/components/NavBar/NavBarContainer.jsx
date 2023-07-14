@@ -9,7 +9,7 @@ export const NavBarContainer = ({ children, ...props }) => {
       wrap='wrap'
       w='100%'
       px={8}
-      bg='teal.50'
+      bg='blue.50'
       color={['black', 'primary.700', 'primary.700']}
       {...props}
     >

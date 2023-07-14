@@ -45,6 +45,14 @@ export const register = async (req, res) => {
       })
     }
 
+    // Check name length
+    if (name.length <= 3) {
+      return res.status(HttpStatusCode.BAD_REQUEST).json({
+        msg: MSGS_RESPONSES.SHORT_NAME,
+        success: false
+      })
+    }
+
     // Hash the password
     const securePassword = hashPassword(password)
 
