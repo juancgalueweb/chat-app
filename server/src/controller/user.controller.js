@@ -115,10 +115,12 @@ export const login = async (req, res) => {
     return res.status(HttpStatusCode.OK).json({
       msg: MSGS_RESPONSES.LOGIN_OK,
       success: true,
-      _id,
-      name,
-      email,
-      token
+      user: {
+        _id,
+        name,
+        email,
+        token
+      }
     })
   } catch (error) {
     return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({

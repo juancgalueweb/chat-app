@@ -4,24 +4,73 @@ import {
   Container,
   FormControl,
   FormLabel,
-  HStack,
   Heading,
   IconButton,
   Input,
   InputGroup,
   InputRightElement,
+  Spinner,
   Stack,
   Text,
-  useDisclosure
+  useDisclosure,
+  useToast
 } from '@chakra-ui/react'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
-import { Link } from 'wouter'
-import { useUserStore } from '../stores/userStore'
+import { Link, useLocation } from 'wouter'
+import { useUserLoginStore } from '../stores/userLoginStore'
+import { baseUrl, postRequest } from '../utils/services'
 
 const Login = () => {
+  const toast = useToast()
+  const {
+    email,
+    password,
+    setEmail,
+    setPassword,
+    setUser,
+    setLoading,
+    loading,
+    user
+  } = useUserLoginStore()
   const passwordRef = useRef(null)
-  const { setPassword, setEmail } = useUserStore()
+  const emailRef = useRef(null)
+  const [, setLocation] = useLocation()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const user = { email, password }
+    setLoading(true)
+    // Login existing user
+    setTimeout(async () => {
+      const response = await postRequest(`${baseUrl}/login`, user)
+      if (response.error) {
+        toast({
+          title: 'Oh oh 😩',
+          description: `${response.errorMsg}`,
+          status: 'error',
+          duration: 6000,
+          isClosable: true
+        })
+        setLoading(false)
+      } else {
+        toast({
+          title: 'Awesome 😎',
+          description: `${response.msg}`,
+          status: 'success',
+          duration: 3000,
+          isClosable: true
+        })
+        setUser(response.user)
+        emailRef.current.value = ''
+        passwordRef.current.value = ''
+        setLoading(false)
+        setTimeout(() => {
+          setLocation('/')
+        }, 3100)
+      }
+    }, 1000)
+  }
 
   const { isOpen, onToggle } = useDisclosure()
   const onClickReveal = () => {
@@ -32,6 +81,12 @@ const Login = () => {
       })
     }
   }
+
+  useEffect(() => {
+    if (user._id !== '') {
+      setLocation('/')
+    }
+  }, [user, setLocation])
 
   return (
     <Container
@@ -94,50 +149,57 @@ const Login = () => {
           }}
         >
           <Stack spacing='6'>
-            <Stack spacing='5'>
-              <FormControl>
-                <FormLabel htmlFor='email'>Email</FormLabel>
-                <Input
-                  id='email'
-                  type='email'
-                  required
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor='password'>Password</FormLabel>
-                <InputGroup>
-                  <InputRightElement>
-                    <IconButton
-                      variant='text'
-                      aria-label={isOpen ? 'Mask password' : 'Reveal password'}
-                      icon={isOpen ? <HiEye /> : <HiEyeOff />}
-                      onClick={onClickReveal}
-                      color='blue.600'
-                    />
-                  </InputRightElement>
+            <form onSubmit={(e) => handleSubmit(e)}>
+              <Stack spacing='5'>
+                <FormControl>
+                  <FormLabel htmlFor='email'>Email</FormLabel>
                   <Input
-                    id='password'
-                    ref={passwordRef}
-                    name='password'
-                    type={isOpen ? 'text' : 'password'}
-                    autoComplete='current-password'
-                    onChange={(e) => setPassword(e.target.value)}
+                    ref={emailRef}
+                    id='email'
+                    type='email'
                     required
+                    onChange={(e) => setEmail(e.target.value)}
                   />
-                </InputGroup>
-              </FormControl>
-            </Stack>
-            <HStack justify='end'>
-              <Button variant='link' size='sm' color='blue.600' fontSize='md'>
-                Forgot password?
-              </Button>
-            </HStack>
-            <Stack spacing='6'>
-              <Button colorScheme='telegram' type='submit'>
-                Sign in
-              </Button>
-            </Stack>
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor='password'>Password</FormLabel>
+                  <InputGroup>
+                    <InputRightElement>
+                      <IconButton
+                        variant='text'
+                        aria-label={
+                          isOpen ? 'Mask password' : 'Reveal password'
+                        }
+                        icon={isOpen ? <HiEye /> : <HiEyeOff />}
+                        onClick={onClickReveal}
+                        color='blue.600'
+                      />
+                    </InputRightElement>
+                    <Input
+                      onChange={(e) => setPassword(e.target.value)}
+                      id='password'
+                      ref={passwordRef}
+                      name='password'
+                      type={isOpen ? 'text' : 'password'}
+                      autoComplete='current-password'
+                      required
+                    />
+                  </InputGroup>
+                </FormControl>
+              </Stack>
+              <Stack spacing='6'>
+                <Button colorScheme='telegram' type='submit' mt={10}>
+                  {loading ? (
+                    <>
+                      <Spinner display='inline-block' mr={2} />
+                      <span>Signing in</span>
+                    </>
+                  ) : (
+                    'Sign in'
+                  )}
+                </Button>
+              </Stack>
+            </form>
           </Stack>
         </Box>
       </Stack>

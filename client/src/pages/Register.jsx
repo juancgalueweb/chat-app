@@ -15,10 +15,11 @@ import {
   useDisclosure,
   useToast
 } from '@chakra-ui/react'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
 import { Link, useLocation } from 'wouter'
-import { useUserStore } from '../stores/userStore'
+import { useUserLoginStore } from '../stores/userLoginStore'
+import { useUserRegistrationStore } from '../stores/userRegistrationStore'
 import { baseUrl, postRequest } from '../utils/services'
 
 const Register = () => {
@@ -27,6 +28,7 @@ const Register = () => {
   const nameRef = useRef(null)
   const passwordRef = useRef(null)
   const [, setLocation] = useLocation()
+  const { user } = useUserLoginStore()
 
   const {
     name,
@@ -37,7 +39,7 @@ const Register = () => {
     setPassword,
     loading,
     setLoading
-  } = useUserStore()
+  } = useUserRegistrationStore()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -83,6 +85,12 @@ const Register = () => {
       })
     }
   }
+
+  useEffect(() => {
+    if (user._id !== '') {
+      setLocation('/')
+    }
+  }, [user, setLocation])
 
   return (
     <Container
