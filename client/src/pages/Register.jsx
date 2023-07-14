@@ -9,6 +9,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Spinner,
   Stack,
   Text,
   useDisclosure,
@@ -38,36 +39,39 @@ const Register = () => {
     setLoading
   } = useUserStore()
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const user = { name, email, password }
     setLoading(true)
     // Send user to the DB
-    const response = await postRequest(`${baseUrl}/register`, user)
-    if (response.error) {
-      toast({
-        title: 'Oh oh 😩',
-        description: `${response.errorMsg}`,
-        status: 'error',
-        duration: 6000,
-        isClosable: true
-      })
-    } else {
-      toast({
-        title: 'Awesome 😎',
-        description: `${response.msg}`,
-        status: 'success',
-        duration: 3000,
-        isClosable: true
-      })
-      emailRef.current.value = ''
-      nameRef.current.value = ''
-      passwordRef.current.value = ''
-      setTimeout(() => {
-        setLocation('/login')
-      }, 3100)
-    }
-    setLoading(false)
+    setTimeout(async () => {
+      const response = await postRequest(`${baseUrl}/register`, user)
+      if (response.error) {
+        toast({
+          title: 'Oh oh 😩',
+          description: `${response.errorMsg}`,
+          status: 'error',
+          duration: 6000,
+          isClosable: true
+        })
+        setLoading(false)
+      } else {
+        toast({
+          title: 'Awesome 😎',
+          description: `${response.msg}`,
+          status: 'success',
+          duration: 3000,
+          isClosable: true
+        })
+        emailRef.current.value = ''
+        nameRef.current.value = ''
+        passwordRef.current.value = ''
+        setLoading(false)
+        setTimeout(() => {
+          setLocation('/login')
+        }, 3100)
+      }
+    }, 1000)
   }
 
   const { isOpen, onToggle } = useDisclosure()
@@ -141,7 +145,7 @@ const Register = () => {
           }}
         >
           <Stack spacing='6'>
-            <form onSubmit={e => handleSubmit(e)}>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <Stack spacing='5'>
                 <FormControl>
                   <FormLabel htmlFor='name'>Name</FormLabel>
@@ -150,7 +154,7 @@ const Register = () => {
                     id='name'
                     type='text'
                     required
-                    onChange={e => setName(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </FormControl>
                 <FormControl>
@@ -160,7 +164,7 @@ const Register = () => {
                     id='email'
                     type='email'
                     required
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </FormControl>
                 <FormControl>
@@ -183,7 +187,7 @@ const Register = () => {
                       name='password'
                       type={isOpen ? 'text' : 'password'}
                       autoComplete='current-password'
-                      onChange={e => setPassword(e.target.value)}
+                      onChange={(e) => setPassword(e.target.value)}
                       required
                     />
                   </InputGroup>
@@ -191,7 +195,14 @@ const Register = () => {
               </Stack>
               <Stack spacing='6'>
                 <Button colorScheme='telegram' type='submit' mt={10}>
-                  {loading ? 'Registering user' : 'Sign up'}
+                  {loading ? (
+                    <>
+                      <Spinner display='inline-block' mr={2} />
+                      <span>Registering user</span>
+                    </>
+                  ) : (
+                    'Sign up'
+                  )}
                 </Button>
               </Stack>
             </form>

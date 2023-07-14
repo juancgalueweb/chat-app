@@ -4,11 +4,11 @@ import { MenuLinks } from './NavBar/MenuLinks'
 import { MenuToggle } from './NavBar/MenuToggle'
 import { NavBarContainer } from './NavBar/NavBarContainer'
 
-const Header = props => {
+const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggle = () => {
-    setIsOpen(prevState => !prevState)
+    setIsOpen((prevState) => !prevState)
   }
 
   return (

@@ -158,7 +158,7 @@ export const findSingleUser = async (req, res) => {
 export const getAllUsers = async (_, res) => {
   try {
     const users = await User.find()
-    const usersToFrontEnd = users.map(user => {
+    const usersToFrontEnd = users.map((user) => {
       return {
         _id: user._id,
         name: user.name,

@@ -16,6 +16,6 @@ async function dbConnect() {
   }
 }
 
-dbConnect().catch(err => {
+dbConnect().catch((err) => {
   console.log(err)
 })

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-export const loginToken = userId => {
+export const loginToken = (userId) => {
   return new Promise((resolve, reject) => {
     const payload = { userId }
     jwt.sign(

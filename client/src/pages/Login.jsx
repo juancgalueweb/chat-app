@@ -101,7 +101,7 @@ const Login = () => {
                   id='email'
                   type='email'
                   required
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </FormControl>
               <FormControl>
@@ -122,7 +122,7 @@ const Login = () => {
                     name='password'
                     type={isOpen ? 'text' : 'password'}
                     autoComplete='current-password'
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                 </InputGroup>
