@@ -1,5 +1,7 @@
+import { Container } from '@chakra-ui/react'
+
 const Chat = () => {
-  return <div>Chat</div>
+  return <Container fontSize={28}>Chat</Container>
 }
 
 export default Chat

@@ -9,9 +9,19 @@
   -webkit-text-size-adjust: 100%;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  min-width: 320px;
-  min-height: 100vh;
+.menu-item {
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+.active-link {
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
