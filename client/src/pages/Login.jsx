@@ -17,12 +17,13 @@ import {
 } from '@chakra-ui/react'
 import { useRef } from 'react'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
-import { Link } from 'wouter'
+import { Link, useLocation } from 'wouter'
 import { shallow } from 'zustand/shallow'
 import { useUserLoginStore } from '../stores/userLoginStore'
 import { baseUrl, postRequest } from '../utils/services'
 
 const Login = () => {
+  const [, setLocation] = useLocation()
   const toast = useToast()
   const {
     email,
@@ -74,6 +75,7 @@ const Login = () => {
         passwordRef.current.value = ''
         setUser(response.user)
         setLoading(false)
+        setLocation('/')
       }
     }, 1000)
   }

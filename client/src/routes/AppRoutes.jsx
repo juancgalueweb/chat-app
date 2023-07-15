@@ -12,8 +12,8 @@ export const AppRoutes = () => {
   const [location, setLocation] = useLocation()
 
   useEffect(() => {
-    if (user._id !== '') {
-      setLocation('/')
+    if (user._id === '' && location !== '/register') {
+      setLocation('/login')
     }
   }, [user, setLocation, location])
 
@@ -22,10 +22,14 @@ export const AppRoutes = () => {
       <Fonts />
       <Header />
       <Switch>
-        <Route path='/' component={Chat} />
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
-        <Redirect to='/' />
+        {user._id !== '' ? (
+          <Route path='/' component={Chat} />
+        ) : (
+          <Redirect to='/login' />
+        )}
+        <Redirect to='/login' />
       </Switch>
     </>
   )
