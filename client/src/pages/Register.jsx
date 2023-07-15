@@ -15,10 +15,9 @@ import {
   useDisclosure,
   useToast
 } from '@chakra-ui/react'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
 import { Link, useLocation } from 'wouter'
-import { useUserLoginStore } from '../stores/userLoginStore'
 import { useUserRegistrationStore } from '../stores/userRegistrationStore'
 import { baseUrl, postRequest } from '../utils/services'
 
@@ -28,7 +27,6 @@ const Register = () => {
   const nameRef = useRef(null)
   const passwordRef = useRef(null)
   const [, setLocation] = useLocation()
-  const { user } = useUserLoginStore()
 
   const {
     name,
@@ -85,12 +83,6 @@ const Register = () => {
       })
     }
   }
-
-  useEffect(() => {
-    if (user._id !== '') {
-      setLocation('/')
-    }
-  }, [user, setLocation])
 
   return (
     <Container

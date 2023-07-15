@@ -15,9 +15,9 @@ import {
   useDisclosure,
   useToast
 } from '@chakra-ui/react'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
-import { Link, useLocation } from 'wouter'
+import { Link } from 'wouter'
 import { useUserLoginStore } from '../stores/userLoginStore'
 import { baseUrl, postRequest } from '../utils/services'
 
@@ -30,12 +30,10 @@ const Login = () => {
     setPassword,
     setUser,
     setLoading,
-    loading,
-    user
+    loading
   } = useUserLoginStore()
   const passwordRef = useRef(null)
   const emailRef = useRef(null)
-  const [, setLocation] = useLocation()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -65,9 +63,6 @@ const Login = () => {
         emailRef.current.value = ''
         passwordRef.current.value = ''
         setLoading(false)
-        setTimeout(() => {
-          setLocation('/')
-        }, 3100)
       }
     }, 1000)
   }
@@ -81,12 +76,6 @@ const Login = () => {
       })
     }
   }
-
-  useEffect(() => {
-    if (user._id !== '') {
-      setLocation('/')
-    }
-  }, [user, setLocation])
 
   return (
     <Container
