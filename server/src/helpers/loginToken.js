@@ -6,7 +6,7 @@ export const loginToken = (userId) => {
     jwt.sign(
       payload,
       process.env.JWT_SECRET_KEY,
-      { expiresIn: '7d' },
+      { expiresIn: '24h' },
       (error, token) => {
         if (error) {
           reject(new Error('Token could not be generated'))

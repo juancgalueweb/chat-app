@@ -18,6 +18,7 @@ import {
 import { useRef } from 'react'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
 import { Link, useLocation } from 'wouter'
+import { shallow } from 'zustand/shallow'
 import { useUserRegistrationStore } from '../stores/userRegistrationStore'
 import { baseUrl, postRequest } from '../utils/services'
 
@@ -27,8 +28,7 @@ const Register = () => {
   const nameRef = useRef(null)
   const passwordRef = useRef(null)
   const [, setLocation] = useLocation()
-
-  const {
+  const [
     name,
     email,
     password,
@@ -37,7 +37,19 @@ const Register = () => {
     setPassword,
     loading,
     setLoading
-  } = useUserRegistrationStore()
+  ] = useUserRegistrationStore(
+    (state) => [
+      state.name,
+      state.email,
+      state.password,
+      state.setName,
+      state.setEmail,
+      state.setPassword,
+      state.loading,
+      state.setLoading
+    ],
+    shallow
+  )
 
   const handleSubmit = async (e) => {
     e.preventDefault()

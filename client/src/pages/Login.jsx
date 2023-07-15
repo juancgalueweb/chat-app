@@ -18,6 +18,7 @@ import {
 import { useRef } from 'react'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
 import { Link } from 'wouter'
+import { shallow } from 'zustand/shallow'
 import { useUserLoginStore } from '../stores/userLoginStore'
 import { baseUrl, postRequest } from '../utils/services'
 
@@ -26,15 +27,25 @@ const Login = () => {
   const {
     email,
     password,
+    loading,
     setEmail,
     setPassword,
-    setUser,
     setLoading,
-    loading
-  } = useUserLoginStore()
-  const passwordRef = useRef(null)
+    setUser
+  } = useUserLoginStore(
+    (state) => ({
+      email: state.email,
+      password: state.password,
+      loading: state.loading,
+      setEmail: state.setEmail,
+      setPassword: state.setPassword,
+      setLoading: state.setLoading,
+      setUser: state.setUser
+    }),
+    shallow
+  )
   const emailRef = useRef(null)
-
+  const passwordRef = useRef(null)
   const handleSubmit = (e) => {
     e.preventDefault()
     const user = { email, password }
@@ -59,9 +70,9 @@ const Login = () => {
           duration: 3000,
           isClosable: true
         })
-        setUser(response.user)
         emailRef.current.value = ''
         passwordRef.current.value = ''
+        setUser(response.user)
         setLoading(false)
       }
     }, 1000)

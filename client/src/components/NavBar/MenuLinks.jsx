@@ -1,5 +1,6 @@
-import { Box, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Stack, Text } from '@chakra-ui/react'
 import { Link, useLocation } from 'wouter'
+import { useUserLoginStore } from '../../stores/userLoginStore'
 
 const MenuItem = ({ children, to = '/', ...rest }) => {
   return (
@@ -12,7 +13,10 @@ const MenuItem = ({ children, to = '/', ...rest }) => {
 }
 
 export const MenuLinks = ({ isOpen }) => {
+  const user = useUserLoginStore((state) => state.user)
+  const resetUser = useUserLoginStore((state) => state.resetUser)
   const [location] = useLocation()
+
   return (
     <Box
       display={{ base: isOpen ? 'block' : 'none', md: 'block' }}
@@ -30,24 +34,40 @@ export const MenuLinks = ({ isOpen }) => {
           to='/'
           className={location === '/' ? 'menu-item active-link' : 'menu-item'}
         >
-          Home
+          Chat
         </MenuItem>
-        <MenuItem
-          to='/login'
-          className={
-            location === '/login' ? 'menu-item active-link' : 'menu-item'
-          }
-        >
-          Login
-        </MenuItem>
-        <MenuItem
-          to='/register'
-          className={
-            location === '/register' ? 'menu-item active-link' : 'menu-item'
-          }
-        >
-          Register{' '}
-        </MenuItem>
+        {user?._id !== '' ? (
+          <>
+            <Text
+              color='blue.700'
+              fontSize='lg'
+            >{`Logged in as ${user?.name}`}</Text>
+            <MenuItem to='/login'>
+              <Button colorScheme='red' onClick={resetUser}>
+                Log out
+              </Button>
+            </MenuItem>
+          </>
+        ) : (
+          <>
+            <MenuItem
+              to='/login'
+              className={
+                location === '/login' ? 'menu-item active-link' : 'menu-item'
+              }
+            >
+              Login
+            </MenuItem>
+            <MenuItem
+              to='/register'
+              className={
+                location === '/register' ? 'menu-item active-link' : 'menu-item'
+              }
+            >
+              Register{' '}
+            </MenuItem>
+          </>
+        )}
       </Stack>
     </Box>
   )

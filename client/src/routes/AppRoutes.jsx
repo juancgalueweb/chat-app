@@ -8,7 +8,7 @@ import Register from '../pages/Register'
 import { useUserLoginStore } from '../stores/userLoginStore'
 
 export const AppRoutes = () => {
-  const { user } = useUserLoginStore()
+  const user = useUserLoginStore((state) => state.user)
   const [location, setLocation] = useLocation()
 
   useEffect(() => {

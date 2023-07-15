@@ -1,25 +1,36 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+const initialState = {
+  email: '',
+  password: '',
+  loading: false,
+  user: {
+    _id: '',
+    name: '',
+    email: '',
+    token: ''
+  }
+}
+
+const localStorageKey = 'user-logged-in'
+
 export const useUserLoginStore = create(
   persist(
-    (set) => {
-      return {
-        email: '',
-        password: '',
-        loading: false,
-        user: {
-          _id: '',
-          name: '',
-          email: '',
-          token: ''
-        },
-        setEmail: (email) => set({ email }),
-        setPassword: (password) => set({ password }),
-        setUser: (userData) => set({ user: userData }, 'USER_DATA'),
-        setLoading: (loading) => set({ loading })
+    (set) => ({
+      ...initialState,
+      setEmail: (email) => set({ email }),
+      setPassword: (password) => set({ password }),
+      setUser: (userData) => set({ user: userData }),
+      setLoading: (loading) => set({ loading }),
+      resetUser: () => {
+        set({ user: initialState.user })
+        localStorage.removeItem(localStorageKey)
       }
-    },
-    { partialize: (state) => ({ user: state.user }), name: 'user-logged-in' }
+    }),
+    {
+      name: `${localStorageKey}`,
+      partialize: (state) => ({ user: state.user })
+    }
   )
 )
