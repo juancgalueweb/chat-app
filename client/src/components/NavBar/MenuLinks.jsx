@@ -30,12 +30,6 @@ export const MenuLinks = ({ isOpen }) => {
         direction={['column', 'row', 'row', 'row']}
         pt={[4, 4, 0, 0]}
       >
-        <MenuItem
-          to='/'
-          className={location === '/' ? 'menu-item active-link' : 'menu-item'}
-        >
-          Chat
-        </MenuItem>
         {user?._id !== '' ? (
           <>
             <Text
