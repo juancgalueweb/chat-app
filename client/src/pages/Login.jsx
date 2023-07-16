@@ -53,7 +53,7 @@ const Login = () => {
     setLoading(true)
     // Login existing user
     setTimeout(async () => {
-      const response = await postRequest(`${baseUrl}/login`, user)
+      const response = await postRequest(`${baseUrl}/api/users/login`, user)
       if (response.error) {
         toast({
           title: 'Oh oh 😩',

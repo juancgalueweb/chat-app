@@ -1,6 +1,7 @@
 import cors from 'cors'
 import express from 'express'
-import test from './src/routes/user.routes.js'
+import chatRoutes from './src/routes/chat.routes.js'
+import userRoutes from './src/routes/user.routes.js'
 
 // Using dotenv
 import 'dotenv/config'
@@ -14,7 +15,8 @@ const port = process.env.PORT || 8001
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(test)
+app.use('/api/users', userRoutes)
+app.use('/api/chats', chatRoutes)
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`)

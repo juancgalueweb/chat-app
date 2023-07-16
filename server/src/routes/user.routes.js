@@ -11,6 +11,6 @@ const router = Router()
 router.post('/register', register)
 router.post('/login', login)
 router.get('/find/:userId', findSingleUser)
-router.get('/users', getAllUsers)
+router.get('/', getAllUsers)
 
 export default router

@@ -61,7 +61,6 @@ export const register = async (req, res) => {
     // Save the user in the DB
     await newUser.save()
 
-    // Return a success response with the user's email and the token containing the OTP
     return res.status(HttpStatusCode.CREATED).json({
       msg: MSGS_RESPONSES.REGISTER_USER,
       success: true
@@ -140,7 +139,7 @@ export const findSingleUser = async (req, res) => {
     if (user) {
       const { email, name, _id } = user
 
-      res.status(HttpStatusCode.OK).json({
+      return res.status(HttpStatusCode.OK).json({
         msg: MSGS_RESPONSES.FIND_SINGLE_USER,
         success: true,
         _id,
@@ -168,7 +167,7 @@ export const getAllUsers = async (_, res) => {
       }
     })
 
-    res.status(HttpStatusCode.OK).json({
+    return res.status(HttpStatusCode.OK).json({
       msg: MSGS_RESPONSES.FIND_ALL_USERS,
       success: true,
       users: usersToFrontEnd
