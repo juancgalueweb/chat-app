@@ -24,5 +24,10 @@ export const MSGS_RESPONSES = {
   FIND_USER_CHAT_ERROR: 'Error when trying to get a chat between 2 members',
   FIND_USER_CHAT_OK: 'Chat between 2 members was found',
   INVALID_OBJECTID: 'That is not a valid mongoDB ObjectId',
-  UNKNOWN_USER: 'You have an invalid user in your request'
+  UNKNOWN_USER: 'You have an invalid user in your request',
+  INVALID_TEXT: 'You can not send an empty message',
+  NEW_MSG_OK: 'New message successfully created',
+  NEW_MSG_ERROR: 'A problem occurred when creating a new message',
+  MESSAGES_BY_CHAT_ID_OK: 'All messages retrieved',
+  MESSAGES_BY_CHAT_ID_ERROR: 'Error while retrieving the messages by chat id'
 }
