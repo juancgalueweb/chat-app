@@ -57,7 +57,7 @@ const Register = () => {
     setLoading(true)
     // Send user to the DB
     setTimeout(async () => {
-      const response = await postRequest(`${baseUrl}/api/users/register`, user)
+      const response = await postRequest(`${baseUrl}/users/register`, user)
       if (response.error) {
         toast({
           title: 'Oh oh 😩',
