@@ -29,5 +29,6 @@ export const MSGS_RESPONSES = {
   NEW_MSG_OK: 'New message successfully created',
   NEW_MSG_ERROR: 'A problem occurred when creating a new message',
   MESSAGES_BY_CHAT_ID_OK: 'All messages retrieved',
-  MESSAGES_BY_CHAT_ID_ERROR: 'Error while retrieving the messages by chat id'
+  MESSAGES_BY_CHAT_ID_ERROR: 'Error while retrieving the messages by chat id',
+  LOGIN_TOKEN_ERROR: 'Token could not be generated'
 }

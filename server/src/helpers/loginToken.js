@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import { MSGS_RESPONSES } from '../constants/msgs'
 
 export const loginToken = (userId) => {
   return new Promise((resolve, reject) => {
@@ -9,7 +10,7 @@ export const loginToken = (userId) => {
       { expiresIn: '24h' },
       (error, token) => {
         if (error) {
-          reject(new Error('Token could not be generated'))
+          reject(new Error(MSGS_RESPONSES.LOGIN_TOKEN_ERROR))
         }
         resolve(token)
       }
