@@ -80,6 +80,7 @@ export const findUserChats = async (req, res) => {
     const chats = await Chat.find({
       members: { $in: [userId] }
     })
+
     return res.status(HttpStatusCode.OK).json({
       msg: MSGS_RESPONSES.FIND_USER_CHATS_OK,
       chats

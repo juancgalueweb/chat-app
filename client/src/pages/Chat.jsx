@@ -1,10 +1,17 @@
-import { Container, Text } from '@chakra-ui/react'
+import { Box, Container, Flex, Spacer, Spinner } from '@chakra-ui/react'
 import { useEffect } from 'react'
+import { shallow } from 'zustand/shallow'
+import { UserChat } from '../components/Chat/UserChat'
 import { useChatStore } from '../stores/chatStore'
+import { useUserLoginStore } from '../stores/userLoginStore'
 
 const Chat = () => {
-  const userChats = useChatStore((state) => state.userChats)
-  const setUserChats = useChatStore((state) => state.setUserChats)
+  const [userChats, setUserChats, isUserChatsLoading] = useChatStore(
+    (state) => [state.userChats, state.setUserChats, state.isUserChatsLoading],
+    shallow
+  )
+
+  const user = useUserLoginStore((state) => state.user)
 
   useEffect(() => {
     setUserChats()
@@ -12,8 +19,30 @@ const Chat = () => {
 
   return (
     <Container>
-      <h1 fontSize={28}>Chat</h1>
-      <Text>{JSON.stringify(userChats)}</Text>
+      {userChats?.length === 0 ? null : (
+        <Flex gap={4} my={4}>
+          <Box className='messages-box'>
+            {isUserChatsLoading ? (
+              <Flex justifyContent='center' alignItems='center' my={5}>
+                <Spinner mr={2} />
+                <span>Loading chats...</span>
+              </Flex>
+            ) : (
+              <>
+                {userChats?.map((chat) => {
+                  return (
+                    <div key={chat?._id}>
+                      <UserChat chat={chat} user={user} />
+                    </div>
+                  )
+                })}
+              </>
+            )}
+          </Box>
+          <Spacer />
+          <Box>Chatbox</Box>
+        </Flex>
+      )}
     </Container>
   )
 }
