@@ -2,7 +2,8 @@ export const baseUrl = 'http://localhost:8001/api'
 
 export const postRequest = async (url, body) => {
   let errorMsg
-  const response = await fetch(url, {
+  const fetchUrl = `${baseUrl}/${url}`
+  const response = await fetch(fetchUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

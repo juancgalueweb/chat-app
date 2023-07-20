@@ -20,7 +20,7 @@ import { HiEye, HiEyeOff } from 'react-icons/hi'
 import { Link, useLocation } from 'wouter'
 import { shallow } from 'zustand/shallow'
 import { useUserLoginStore } from '../stores/userLoginStore'
-import { baseUrl, postRequest } from '../utils/services'
+import { postRequest } from '../utils/services'
 
 const Login = () => {
   const [, setLocation] = useLocation()
@@ -53,7 +53,7 @@ const Login = () => {
     setLoading(true)
     // Login existing user
     setTimeout(async () => {
-      const response = await postRequest(`${baseUrl}/users/login`, user)
+      const response = await postRequest('users/login', user)
       if (response.error) {
         toast({
           title: 'Oh oh 😩',

@@ -1,6 +1,7 @@
 import { Box, Container, Flex, Spacer, Spinner } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { shallow } from 'zustand/shallow'
+import { PotentialChats } from '../components/Chat/PotentialChats'
 import { UserChat } from '../components/Chat/UserChat'
 import { useChatStore } from '../stores/chatStore'
 import { useUserLoginStore } from '../stores/userLoginStore'
@@ -15,11 +16,17 @@ const Chat = () => {
 
   useEffect(() => {
     setUserChats()
-  }, [setUserChats])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Container>
-      {userChats?.length === 0 ? null : (
+      <PotentialChats />
+      {userChats?.length === 0 ? (
+        <Flex justifyContent='start' alignItems='center' my={5}>
+          {`You haven't initialized any chat yet 😓`}
+        </Flex>
+      ) : (
         <Flex gap={4} my={4}>
           <Box className='messages-box'>
             {isUserChatsLoading ? (

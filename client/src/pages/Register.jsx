@@ -20,7 +20,7 @@ import { HiEye, HiEyeOff } from 'react-icons/hi'
 import { Link, useLocation } from 'wouter'
 import { shallow } from 'zustand/shallow'
 import { useUserRegistrationStore } from '../stores/userRegistrationStore'
-import { baseUrl, postRequest } from '../utils/services'
+import { postRequest } from '../utils/services'
 
 const Register = () => {
   const toast = useToast()
@@ -57,7 +57,7 @@ const Register = () => {
     setLoading(true)
     // Send user to the DB
     setTimeout(async () => {
-      const response = await postRequest(`${baseUrl}/users/register`, user)
+      const response = await postRequest('users/register', user)
       if (response.error) {
         toast({
           title: 'Oh oh 😩',

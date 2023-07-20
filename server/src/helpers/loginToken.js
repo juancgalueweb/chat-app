@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { MSGS_RESPONSES } from '../constants/msgs'
+import { MSGS_RESPONSES } from '../constants/msgs.js'
 
 export const loginToken = (userId) => {
   return new Promise((resolve, reject) => {
