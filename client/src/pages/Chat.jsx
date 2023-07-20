@@ -7,10 +7,16 @@ import { useChatStore } from '../stores/chatStore'
 import { useUserLoginStore } from '../stores/userLoginStore'
 
 const Chat = () => {
-  const [userChats, setUserChats, isUserChatsLoading] = useChatStore(
-    (state) => [state.userChats, state.setUserChats, state.isUserChatsLoading],
-    shallow
-  )
+  const [userChats, setUserChats, isUserChatsLoading, setCurrentChat] =
+    useChatStore(
+      (state) => [
+        state.userChats,
+        state.setUserChats,
+        state.isUserChatsLoading,
+        state.setCurrentChat
+      ],
+      shallow
+    )
 
   const user = useUserLoginStore((state) => state.user)
 
@@ -38,7 +44,7 @@ const Chat = () => {
               <>
                 {userChats?.map((chat) => {
                   return (
-                    <div key={chat?._id}>
+                    <div key={chat?._id} onClick={() => setCurrentChat(chat)}>
                       <UserChat chat={chat} user={user} />
                     </div>
                   )

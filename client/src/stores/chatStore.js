@@ -7,6 +7,7 @@ export const useChatStore = create((set, get) => ({
   isUserChatsLoading: false,
   userChatError: null,
   potentialChats: [],
+  currentChat: null,
   setUserChats: async () => {
     const { user } = useUserLoginStore.getState()
     if (user?.id !== '') {
@@ -61,5 +62,8 @@ export const useChatStore = create((set, get) => ({
     const { chat } = response
     setUserChats((prev) => [...prev, chat])
     set({ chat })
+  },
+  setCurrentChat: (chat) => {
+    set({ currentChat: chat })
   }
 }))
