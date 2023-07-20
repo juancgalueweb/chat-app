@@ -5,12 +5,12 @@ import { useUserLoginStore } from '../../stores/userLoginStore'
 
 export const PotentialChats = () => {
   const user = useUserLoginStore((state) => state.user)
-  const [potentialChats, setPotentialChats, setCreateChat, userChats] =
+  const [potentialChats, setPotentialChats, createChat, userChats] =
     useChatStore(
       (state) => [
         state.potentialChats,
         state.setPotentialChats,
-        state.setCreateChat,
+        state.createChat,
         state.userChats
       ],
       shallow
@@ -30,7 +30,7 @@ export const PotentialChats = () => {
               <div
                 key={u?._id}
                 className='single-user'
-                onClick={async () => setCreateChat(user?._id, u?._id)}
+                onClick={async () => createChat(user?._id, u?._id)}
               >
                 {u?.name}
                 <span className='user-online'></span>
