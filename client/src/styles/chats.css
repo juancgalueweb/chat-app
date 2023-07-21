@@ -60,6 +60,7 @@ body {
   overflow-y: auto;
   background: rgb(25, 25, 25);
   border-radius: 10px;
+  height: 80%;
 }
 
 .messages-box {
@@ -72,6 +73,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 0.75rem;
+  color: rgb(209 213 219);
 
   background: rgb(30, 30, 30);
 }
@@ -81,17 +83,26 @@ body {
   max-height: calc(100vh - 15rem);
   overflow-y: auto;
   padding: 0 2rem;
+  color: rgb(229 231 235);
+  margin-bottom: 10px;
 }
 
 .message {
   background: #282828;
+  align-self: self-start;
+  flex-grow: 0;
   padding: 0.75rem;
   border-radius: 5px;
   max-width: 50%;
 }
 
-.message.self {
+.message-self {
   background: #00bd9b;
+  align-self: end;
+  flex-grow: 0;
+  padding: 0.75rem;
+  border-radius: 5px;
+  max-width: 50%;
 }
 
 .message-footer {
