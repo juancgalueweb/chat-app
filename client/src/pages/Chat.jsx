@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Spacer, Spinner } from '@chakra-ui/react'
+import { Box, Container, Flex, Spinner } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { shallow } from 'zustand/shallow'
 import { ChatBox } from '../components/Chat/ChatBox'
@@ -48,7 +48,7 @@ const Chat = () => {
         </Flex>
       ) : (
         <Flex gap={4} my={4} flexDirection='row' justifyContent='center'>
-          <Box className='messages-box' w='25%'>
+          <Box className='messages-box' w='30%'>
             {isUserChatsLoading ? (
               <Flex justifyContent='center' alignItems='center' my={5}>
                 <Spinner mr={2} />
@@ -66,8 +66,7 @@ const Chat = () => {
               </>
             )}
           </Box>
-          <Spacer />
-          <Box w='60%'>
+          <Box w='65%' ml={10}>
             <ChatBox />
           </Box>
         </Flex>

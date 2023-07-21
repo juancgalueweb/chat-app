@@ -60,11 +60,10 @@ body {
   overflow-y: auto;
   background: rgb(25, 25, 25);
   border-radius: 10px;
-  height: 80%;
 }
 
 .messages-box {
-  height: 85vh;
+  height: 75vh;
 }
 
 /* Chat Header */
@@ -85,24 +84,18 @@ body {
   padding: 0 2rem;
   color: rgb(229 231 235);
   margin-bottom: 10px;
+  height: 500px;
 }
 
 .message {
   background: #282828;
-  align-self: self-start;
-  flex-grow: 0;
   padding: 0.75rem;
   border-radius: 5px;
   max-width: 50%;
 }
 
-.message-self {
+.message.self {
   background: #00bd9b;
-  align-self: end;
-  flex-grow: 0;
-  padding: 0.75rem;
-  border-radius: 5px;
-  max-width: 50%;
 }
 
 .message-footer {

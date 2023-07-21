@@ -1,17 +1,34 @@
 import { Flex, Spinner } from '@chakra-ui/react'
+import { useRef, useState } from 'react'
+import Stack from 'react-bootstrap/Stack'
+import InputEmoji from 'react-input-emoji'
 import { shallow } from 'zustand/shallow'
 import { useFetchRecipientUser } from '../../hooks/useFetchRecipients'
 import { useChatStore } from '../../stores/chatStore'
 import { useUserLoginStore } from '../../stores/userLoginStore'
 import { dateTransform } from '../../utils/dateTransform'
+import { SendIcon } from '../Icons/SendIcon'
 
 export const ChatBox = () => {
+  const [textMessage, setTextMessage] = useState('')
+  const inputEmojiRef = useRef(null)
   const user = useUserLoginStore((state) => state.user)
-  const [currentChat, messages, areMessagesLoading] = useChatStore(
-    (state) => [state.currentChat, state.messages, state.areMessagesLoading],
-    shallow
-  )
+  const [currentChat, messages, areMessagesLoading, sendTextMessage] =
+    useChatStore(
+      (state) => [
+        state.currentChat,
+        state.messages,
+        state.areMessagesLoading,
+        state.sendTextMessage
+      ],
+      shallow
+    )
   const { recipientUser } = useFetchRecipientUser(currentChat, user)
+
+  const handleSendMessage = () => {
+    sendTextMessage(currentChat?._id, user?._id, textMessage)
+    inputEmojiRef.current.value = ''
+  }
 
   if (!recipientUser) {
     return (
@@ -31,29 +48,48 @@ export const ChatBox = () => {
   }
 
   return (
-    <Flex gap={4} flexDirection='column' className='chat-box' flex='1'>
+    <Stack gap={4} className='chat-box'>
       <div className='chat-header'>
         <strong>{recipientUser?.name}</strong>
       </div>
-      <Flex gap={3} className='messages'>
+      <Stack gap={3} className='messages'>
         {messages &&
           messages.map((message, index) => {
             return (
-              <Flex
-                key={index}
+              <Stack
                 flexDirection='column'
+                key={index}
                 className={`${
-                  message.senderId === user?._id ? 'message-self' : 'message'
+                  message.senderId === user?._id
+                    ? 'message self align-self-end flex-grow-0'
+                    : 'message align-self-start flex-grow-0'
                 }`}
               >
                 <span>{message?.text}</span>
                 <span className='message-footer'>
                   {dateTransform(message?.createdAt)}
                 </span>
-              </Flex>
+              </Stack>
             )
           })}
+      </Stack>
+      <Flex
+        flexGrow={0}
+        flexDirection='row'
+        className='chat-input'
+        alignSelf='end'
+      >
+        <InputEmoji
+          ref={inputEmojiRef}
+          value={textMessage}
+          borderColor='#0EA5DF'
+          onChange={setTextMessage}
+          onEnter={handleSendMessage}
+        />
+        <button onClick={() => handleSendMessage()}>
+          <SendIcon />
+        </button>
       </Flex>
-    </Flex>
+    </Stack>
   )
 }

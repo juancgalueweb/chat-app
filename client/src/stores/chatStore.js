@@ -11,6 +11,7 @@ export const useChatStore = create((set, get) => ({
   messages: null,
   areMessagesLoading: false,
   messagesError: null,
+  newMessage: '',
   setUserChats: async () => {
     const { user } = useUserLoginStore.getState()
     if (user?.id !== '') {
@@ -83,5 +84,17 @@ export const useChatStore = create((set, get) => ({
       set({ messages: response?.messages })
       set({ areMessagesLoading: false })
     }
+  },
+  sendTextMessage: async (chatId, senderId, text) => {
+    if (!text) return
+    const body = {
+      chatId,
+      senderId,
+      text
+    }
+    const postReq = await postRequest('messages', body)
+    set({ newMessage: postReq.response })
+    const { setMessages } = get()
+    setMessages((prev) => [...prev, postReq.response])
   }
 }))
