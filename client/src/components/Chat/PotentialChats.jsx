@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 import { shallow } from 'zustand/shallow'
 import { useChatStore } from '../../stores/chatStore'
+import { useSocketStore } from '../../stores/socketStore'
 import { useUserLoginStore } from '../../stores/userLoginStore'
 
 export const PotentialChats = () => {
   const user = useUserLoginStore((state) => state.user)
+  const onlineUsers = useSocketStore((state) => state.onlineUsers)
   const [potentialChats, setPotentialChats, createChat, userChats] =
     useChatStore(
       (state) => [
@@ -33,7 +35,13 @@ export const PotentialChats = () => {
                 onClick={async () => createChat(user?._id, u?._id)}
               >
                 {u?.name}
-                <span className='user-online'></span>
+                <span
+                  className={
+                    onlineUsers?.some((user) => user?.userId === u?._id)
+                      ? 'user-online'
+                      : ''
+                  }
+                ></span>
               </div>
             )
           })}

@@ -49,7 +49,7 @@ body {
   border-radius: 50%;
   background: rgb(0, 219, 0);
   position: absolute;
-  top: -3px;
+  top: 6px;
   right: -3px;
   z-index: 2;
 }

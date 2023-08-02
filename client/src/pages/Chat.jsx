@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Container, Flex, Spinner } from '@chakra-ui/react'
 import { useEffect } from 'react'
+import { io } from 'socket.io-client'
 import { shallow } from 'zustand/shallow'
 import { ChatBox } from '../components/Chat/ChatBox'
 import { PotentialChats } from '../components/Chat/PotentialChats'
 import { UserChat } from '../components/Chat/UserChat'
 import { useChatStore } from '../stores/chatStore'
+import { useSocketStore } from '../stores/socketStore'
 import { useUserLoginStore } from '../stores/userLoginStore'
 
 const Chat = () => {
@@ -29,14 +32,37 @@ const Chat = () => {
 
   const user = useUserLoginStore((state) => state.user)
 
+  const socket = useSocketStore((state) => state.socket)
+  const setSocket = useSocketStore((state) => state.setSocket)
+  const setOnlineUsers = useSocketStore((state) => state.setOnlineUsers)
+
+  useEffect(() => {
+    if (socket === null) return
+    socket.emit('addNewUser', user?._id)
+    socket.on('getOnlineUsers', (res) => {
+      setOnlineUsers(res)
+    })
+
+    return () => {
+      socket.off('getOnlineUsers')
+    }
+  }, [socket])
+
+  useEffect(() => {
+    const newSocket = io('http://localhost:3000')
+    setSocket(newSocket)
+
+    return () => {
+      newSocket.disconnect()
+    }
+  }, [user])
+
   useEffect(() => {
     setUserChats()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     setMessages()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentChat])
 
   return (

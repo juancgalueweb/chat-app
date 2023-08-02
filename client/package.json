@@ -21,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-input-emoji": "^5.1.1",
+    "socket.io-client": "^4.7.1",
     "wouter": "^2.11.0",
     "zustand": "4.3.9"
   },
