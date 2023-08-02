@@ -25,7 +25,7 @@ export const PotentialChats = () => {
 
   return (
     <>
-      <div className='all-users' style={{ marginTop: '20px' }}>
+      <div className='all-users'>
         {potentialChats &&
           potentialChats.map((u) => {
             return (

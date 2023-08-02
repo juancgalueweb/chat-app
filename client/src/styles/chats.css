@@ -9,7 +9,7 @@ body {
 /* All users */
 .all-users {
   display: flex;
-  margin-bottom: 1rem;
+  margin: 0.75rem 0;
 }
 
 .single-user {
@@ -84,7 +84,7 @@ body {
   padding: 0 2rem;
   color: rgb(229 231 235);
   margin-bottom: 10px;
-  height: 500px;
+  height: 450px;
 }
 
 .message {
@@ -209,4 +209,8 @@ body {
   border-radius: 50%;
   align-items: center;
   justify-content: center;
+}
+
+.avatar {
+  margin-right: 0.5rem;
 }

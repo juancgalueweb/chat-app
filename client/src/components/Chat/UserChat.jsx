@@ -22,7 +22,7 @@ export const UserChat = ({ chat, user }) => {
       role='button'
     >
       <Flex>
-        <div style={{ marginRight: '0.75rem' }}>
+        <div className='avatar'>
           <Male1 />
         </div>
         <div className='text-content'>

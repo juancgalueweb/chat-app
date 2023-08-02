@@ -62,7 +62,7 @@ export const ChatBox = () => {
     }
   }, [socket, currentChat])
 
-  // Utilizar useLayoutEffect para hacer scroll hacia abajo cuando llega un nuevo mensaje
+  // Para hacer scroll hacia abajo cuando llega o se envíe un nuevo mensaje
   useLayoutEffect(() => {
     if (messagesRef.current) {
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight
