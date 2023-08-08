@@ -148,6 +148,7 @@ body {
   padding-bottom: 0;
   display: flex;
   justify-content: space-between;
+  color: #fff;
 }
 
 .notifications-box h3 {
@@ -170,6 +171,7 @@ body {
   flex-direction: column;
   cursor: pointer;
   padding: 0.5rem 1rem;
+  color: #fff;
 }
 
 .notification.not-read {

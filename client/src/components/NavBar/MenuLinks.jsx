@@ -5,11 +5,13 @@ import Notification from '../Chat/Notification'
 
 const MenuItem = ({ children, to = '/', ...rest }) => {
   return (
-    <Link href={to}>
-      <Text display='block' fontSize='lg' {...rest}>
-        {children}
-      </Text>
-    </Link>
+    <div style={{ marginTop: '15px' }}>
+      <Link href={to}>
+        <Text display='block' fontSize='lg' {...rest}>
+          {children}
+        </Text>
+      </Link>
+    </div>
   )
 }
 
@@ -33,9 +35,7 @@ export const MenuLinks = ({ isOpen }) => {
       >
         {user?._id !== '' ? (
           <>
-            <Text color='blue.700' fontSize='lg'>
-              {`Logged in as ${user?.name}`}
-            </Text>
+            <div>{`Logged in as ${user?.name}`}</div>
             <Notification />
             <MenuItem to='/login'>
               <Button colorScheme='red' onClick={resetUser}>

@@ -21,9 +21,6 @@ const Notification = () => {
     }
   })
 
-  console.log('unread n', unreadNotifications)
-  console.log('modified n', modifiedNotifications)
-
   const [isOpen, setIsOpen] = useState(false)
   return (
     <div className='notifications'>
@@ -41,10 +38,8 @@ const Notification = () => {
       {isOpen && (
         <div className='notifications-box'>
           <div className='notifications-header'>
-            <h3 style={{ color: '#fff' }}>Notifications</h3>
-            <div className='mark-as-read' style={{ color: '#fff' }}>
-              Mark all as read
-            </div>
+            <h3>Notifications</h3>
+            <div className='mark-as-read'>Mark all as read</div>
           </div>
           {modifiedNotifications?.length === 0 ? (
             <span className='notification'>No notificaction yet...</span>
@@ -58,9 +53,7 @@ const Notification = () => {
                     n.isRead ? 'notification' : 'notification not-read'
                   }
                 >
-                  <span
-                    style={{ color: '#fff' }}
-                  >{`${n.senderName} sent you a message`}</span>
+                  <span>{`${n.senderName} sent you a message`}</span>
                   <span className='notification-time'>
                     {dateTransform(n.date)}
                   </span>
