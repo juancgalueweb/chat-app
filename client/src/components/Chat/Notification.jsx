@@ -1,15 +1,19 @@
 import { useState } from 'react'
 import { useChatStore } from '../../stores/chatStore'
-// import { useUserLoginStore } from '../../stores/userLoginStore'
 import { dateTransform } from '../../utils/dateTransform'
 import { unreadNotificationsFunc } from '../../utils/unreadNotifications'
 import NotificacionIcon from '../Icons/NotificacionIcon'
 
 const Notification = () => {
-  // const user = useUserLoginStore((state) => state.user)
+  const [isOpen, setIsOpen] = useState(false)
   const notifications = useChatStore((state) => state.notifications)
-  // const userChats = useChatStore((state) => state.userChats)
   const allUsers = useChatStore((state) => state.allUsers)
+  const markAllNotificationsAsRead = useChatStore(
+    (state) => state.markAllNotificationsAsRead
+  )
+  const markNotificationAsRead = useChatStore(
+    (state) => state.markNotificationAsRead
+  )
 
   const unreadNotifications = unreadNotificationsFunc(notifications)
   const modifiedNotifications = notifications.map((n) => {
@@ -21,7 +25,6 @@ const Notification = () => {
     }
   })
 
-  const [isOpen, setIsOpen] = useState(false)
   return (
     <div className='notifications'>
       <div
@@ -39,23 +42,34 @@ const Notification = () => {
         <div className='notifications-box'>
           <div className='notifications-header'>
             <h3>Notifications</h3>
-            <div className='mark-as-read'>Mark all as read</div>
+            <div
+              className='mark-as-read'
+              onClick={() => markAllNotificationsAsRead(notifications)}
+            >
+              Mark all as read
+            </div>
           </div>
           {modifiedNotifications?.length === 0 ? (
             <span className='notification'>No notificaction yet...</span>
           ) : null}
           {modifiedNotifications &&
-            modifiedNotifications.map((n, index) => {
+            modifiedNotifications.map((notification, index) => {
               return (
                 <div
                   key={index}
                   className={
-                    n.isRead ? 'notification' : 'notification not-read'
+                    notification.isRead
+                      ? 'notification'
+                      : 'notification not-read'
                   }
+                  onClick={() => {
+                    markNotificationAsRead(notification)
+                    setIsOpen(false)
+                  }}
                 >
-                  <span>{`${n.senderName} sent you a message`}</span>
+                  <span>{`${notification.senderName} sent you a message`}</span>
                   <span className='notification-time'>
-                    {dateTransform(n.date)}
+                    {dateTransform(notification.date)}
                   </span>
                 </div>
               )

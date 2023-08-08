@@ -60,13 +60,7 @@ export const ChatBox = () => {
     })
 
     socket.on('getNotification', (res) => {
-      const isChatOpen = currentChat?.members.some((id) => id === res.senderId)
-      const updatedNotification = { ...res, isRead: true }
-      if (isChatOpen) {
-        setNotifications(updatedNotification)
-      } else {
-        setNotifications(res)
-      }
+      setNotifications(res)
     })
 
     return () => {

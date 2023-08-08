@@ -100,9 +100,45 @@ export const useChatStore = create((set, get) => ({
     const { setMessages } = get()
     setMessages((prev) => [...prev, postReq.response])
   },
-  setNotifications: (notification) => {
-    set((state) => ({
-      notifications: [...state.notifications, notification]
-    }))
+  setNotifications: (res) => {
+    const { currentChat, notifications } = get()
+    const isChatOpen = currentChat?.members.some((id) => id === res.senderId)
+
+    if (isChatOpen) {
+      set({ notifications: [...notifications, { ...res, isRead: true }] })
+    } else {
+      set({ notifications: [res, ...notifications] })
+    }
+  },
+  markAllNotificationsAsRead: (notifications) => {
+    const markedNotifications = notifications.map((notification) => {
+      return { ...notification, isRead: true }
+    })
+    set({ notifications: markedNotifications })
+  },
+  markNotificationAsRead: (notification) => {
+    const { userChats, notifications, setCurrentChat } = get()
+    const { user } = useUserLoginStore.getState()
+
+    // Find chat to open
+    const desiredChat = userChats.find((chat) => {
+      const chatMembers = [user?._id, notification.senderId]
+      const isDesiredChat = chat?.members.every((member) => {
+        return chatMembers.includes(member)
+      })
+      return isDesiredChat
+    })
+
+    // Mark notification as read
+    const mNotifications = notifications.map((el) => {
+      if (notification.senderId === el.senderId) {
+        return { ...notification, isRead: true }
+      } else {
+        return el
+      }
+    })
+
+    setCurrentChat(desiredChat)
+    set({ notifications: mNotifications })
   }
 }))
