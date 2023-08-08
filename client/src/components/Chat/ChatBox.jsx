@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Flex, Spinner } from '@chakra-ui/react'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Stack from 'react-bootstrap/Stack'
 import InputEmoji from 'react-input-emoji'
 import { shallow } from 'zustand/shallow'
@@ -14,7 +14,7 @@ import { SendIcon } from '../Icons/SendIcon'
 export const ChatBox = () => {
   const [textMessage, setTextMessage] = useState('')
   const inputEmojiRef = useRef(null)
-  const messagesRef = useRef(null)
+  const scroll = useRef(null)
   const user = useUserLoginStore((state) => state.user)
   const [
     currentChat,
@@ -22,7 +22,8 @@ export const ChatBox = () => {
     areMessagesLoading,
     sendTextMessage,
     newMessage,
-    setMessages
+    setMessages,
+    setNotifications
   ] = useChatStore(
     (state) => [
       state.currentChat,
@@ -30,7 +31,8 @@ export const ChatBox = () => {
       state.areMessagesLoading,
       state.sendTextMessage,
       state.newMessage,
-      state.setMessages
+      state.setMessages,
+      state.setNotifications
     ],
     shallow
   )
@@ -49,7 +51,7 @@ export const ChatBox = () => {
     socket.emit('sendMessage', { ...newMessage, recipientId })
   }, [newMessage])
 
-  // Receive message
+  // Receive message and notification
   useEffect(() => {
     if (socket === null) return
     socket.on('getMessage', (res) => {
@@ -57,16 +59,25 @@ export const ChatBox = () => {
       setMessages((prev) => [...prev, res])
     })
 
+    socket.on('getNotification', (res) => {
+      const isChatOpen = currentChat?.members.some((id) => id === res.senderId)
+      const updatedNotification = { ...res, isRead: true }
+      if (isChatOpen) {
+        setNotifications(updatedNotification)
+      } else {
+        setNotifications(res)
+      }
+    })
+
     return () => {
       socket.off('getMessage')
+      socket.off('getNotification')
     }
   }, [socket, currentChat])
 
   // Para hacer scroll hacia abajo cuando llega o se envíe un nuevo mensaje
-  useLayoutEffect(() => {
-    if (messagesRef.current) {
-      messagesRef.current.scrollTop = messagesRef.current.scrollHeight
-    }
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
   if (!recipientUser) {
@@ -91,12 +102,13 @@ export const ChatBox = () => {
       <div className='chat-header'>
         <strong>{recipientUser?.name}</strong>
       </div>
-      <Stack gap={3} className='messages' ref={messagesRef}>
+      <Stack gap={3} className='messages'>
         {messages &&
           messages.map((message, index) => {
             return (
               <Stack
-                flexDirection='column'
+                ref={scroll}
+                direction='vertical'
                 key={index}
                 className={`${
                   message.senderId === user?._id
@@ -112,12 +124,7 @@ export const ChatBox = () => {
             )
           })}
       </Stack>
-      <Flex
-        flexGrow={0}
-        flexDirection='row'
-        className='chat-input'
-        alignSelf='end'
-      >
+      <Flex flexGrow={0} flexDir='row' className='chat-input' alignSelf='end'>
         <InputEmoji
           ref={inputEmojiRef}
           value={textMessage}

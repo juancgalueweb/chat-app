@@ -1,6 +1,7 @@
 import { Box, Button, Stack, Text } from '@chakra-ui/react'
 import { Link, useLocation } from 'wouter'
 import { useUserLoginStore } from '../../stores/userLoginStore'
+import Notification from '../Chat/Notification'
 
 const MenuItem = ({ children, to = '/', ...rest }) => {
   return (
@@ -24,7 +25,7 @@ export const MenuLinks = ({ isOpen }) => {
       mb={isOpen ? 4 : 0}
     >
       <Stack
-        spacing={8}
+        spacing={4}
         align='center'
         justify={['center', 'space-between', 'flex-end', 'flex-end']}
         direction={['column', 'row', 'row', 'row']}
@@ -32,10 +33,10 @@ export const MenuLinks = ({ isOpen }) => {
       >
         {user?._id !== '' ? (
           <>
-            <Text
-              color='blue.700'
-              fontSize='lg'
-            >{`Logged in as ${user?.name}`}</Text>
+            <Text color='blue.700' fontSize='lg'>
+              {`Logged in as ${user?.name}`}
+            </Text>
+            <Notification />
             <MenuItem to='/login'>
               <Button colorScheme='red' onClick={resetUser}>
                 Log out

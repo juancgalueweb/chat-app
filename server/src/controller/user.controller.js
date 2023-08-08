@@ -5,7 +5,6 @@ import {
   comparePasswordWithHash,
   hashPassword
 } from '../helpers/hashPassword.js'
-import { loginToken } from '../helpers/loginToken.js'
 import User from '../models/user.model.js'
 
 export const register = async (req, res) => {
@@ -108,17 +107,13 @@ export const login = async (req, res) => {
 
     const { name, _id } = user
 
-    // Generate a token
-    const token = await loginToken(user._id)
-
     return res.status(HttpStatusCode.OK).json({
       msg: MSGS_RESPONSES.LOGIN_OK,
       success: true,
       user: {
         _id,
         name,
-        email,
-        token
+        email
       }
     })
   } catch (error) {

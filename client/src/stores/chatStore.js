@@ -11,7 +11,9 @@ export const useChatStore = create((set, get) => ({
   messages: null,
   areMessagesLoading: false,
   messagesError: null,
+  allUsers: [],
   newMessage: '',
+  notifications: [],
   setUserChats: async () => {
     const { user } = useUserLoginStore.getState()
     if (user?.id !== '') {
@@ -53,6 +55,7 @@ export const useChatStore = create((set, get) => ({
       return !isChatCreated
     })
     set({ potentialChats: pChats })
+    set({ allUsers: users })
   },
   createChat: async (firstId, secondId) => {
     const response = await postRequest('chats', { firstId, secondId })
@@ -96,5 +99,10 @@ export const useChatStore = create((set, get) => ({
     set({ newMessage: postReq.response })
     const { setMessages } = get()
     setMessages((prev) => [...prev, postReq.response])
+  },
+  setNotifications: (notification) => {
+    set((state) => ({
+      notifications: [...state.notifications, notification]
+    }))
   }
 }))
