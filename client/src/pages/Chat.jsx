@@ -17,7 +17,8 @@ const Chat = () => {
     isUserChatsLoading,
     setCurrentChat,
     currentChat,
-    setMessages
+    setMessages,
+    notifications
   ] = useChatStore(
     (state) => [
       state.userChats,
@@ -25,7 +26,8 @@ const Chat = () => {
       state.isUserChatsLoading,
       state.setCurrentChat,
       state.currentChat,
-      state.setMessages
+      state.setMessages,
+      state.notifications
     ],
     shallow
   )
@@ -59,7 +61,7 @@ const Chat = () => {
 
   useEffect(() => {
     setUserChats()
-  }, [])
+  }, [user, notifications])
 
   useEffect(() => {
     setMessages()
@@ -73,7 +75,7 @@ const Chat = () => {
           {`You haven't initialized any chat yet 😓`}
         </Flex>
       ) : (
-        <Flex gap={4} my={4} flexDirection='row' justifyContent='center'>
+        <Flex gap={4} my={4} direction='row' justify='space-between'>
           <Box className='messages-box' w='30%'>
             {isUserChatsLoading ? (
               <Flex justifyContent='center' alignItems='center' my={5}>

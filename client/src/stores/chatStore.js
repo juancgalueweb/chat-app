@@ -140,5 +140,18 @@ export const useChatStore = create((set, get) => ({
 
     setCurrentChat(desiredChat)
     set({ notifications: mNotifications })
+  },
+  markThisUserNotificationsAsRead: (thisUserNotifications) => {
+    const { notifications } = get()
+    const mNotifications = notifications.map((el) => {
+      const matchedNotifications = thisUserNotifications.find(
+        (n) => n.senderId === el.senderId
+      )
+      if (matchedNotifications) {
+        return { ...el, isRead: true }
+      }
+      return el
+    })
+    set({ notifications: mNotifications })
   }
 }))
