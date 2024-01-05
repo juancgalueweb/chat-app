@@ -1,4 +1,4 @@
-export const baseUrl = 'http://localhost:8001/api'
+export const baseUrl = 'http://localhost:8015/api'
 
 export const postRequest = async (url, body) => {
   let errorMsg
