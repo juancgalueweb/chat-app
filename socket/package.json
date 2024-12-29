@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "node --watch index.js",
     "format": "prettier --write ."
   },
   "keywords": [],
@@ -21,7 +21,6 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
     "eslint-plugin-promise": "^6.0.0",
-    "nodemon": "^3.0.1",
     "prettier": "^3.0.0"
   }
 }

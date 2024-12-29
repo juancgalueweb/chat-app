@@ -1,4 +1,4 @@
-export const baseUrl = 'http://localhost:8015/api'
+export const baseUrl = `http://localhost:${import.meta.env.VITE_PORT}/api`
 
 export const postRequest = async (url, body) => {
   let errorMsg
